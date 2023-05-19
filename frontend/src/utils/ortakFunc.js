@@ -8,3 +8,9 @@ export function handleItemChange(field, value, setItem) {
       return next;
     });
   }
+
+
+ export const getErrorMessage = (errors, fieldName) => {
+    const error = errors?.find((e) => e?.field === fieldName);
+    return error ? error.defaultMessage : '';
+};

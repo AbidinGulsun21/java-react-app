@@ -1,11 +1,17 @@
 package com.hoaxify.ws.user;
 
+import com.hoaxify.ws.error.ApiError;
 import com.hoaxify.ws.shared.GenericResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -18,24 +24,11 @@ public class UserController {
 
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
-    public GenericResponse createUser(@RequestBody User user) throws Exception {
+    public GenericResponse createUser(@Valid @RequestBody User user) throws Exception {
         Optional<User> existUser = this.getUsername(user.getUsername());
 
-        if (user.getUsername() == null || user.getUsername() == "") {
-            throw new Exception("Username can not be null!");
-        }
-
-        if (user.getDisplayName() == null || user.getDisplayName().isEmpty()) {
-            throw new Exception("Displayname can not be null!");
-        }
-
-        if (user.getPassword() == null || user.getPassword().isEmpty()) {
-            throw new Exception("Displayname can not be null!");
-        }
-
         if (existUser.isPresent()) {
-            System.out.println("user" + existUser);
-            throw new Exception("Böyle bir kullanıcı mevcut!");
+            throw new Exception(existUser.get().getUsername() + " isimli kullanıcı zaten var lütfen farklı bir kullanıcı adı girin!");
         }
 
         this.userService.createUser(user);
@@ -62,5 +55,6 @@ public class UserController {
             throw new Exception("Kullanıcı bulunamadı");
         }
     }
+
 
 }

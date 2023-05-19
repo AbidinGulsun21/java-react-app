@@ -47,15 +47,25 @@ export async function callAPI({ method, url, headers, params, data, responseType
         }
         return res;
     } catch (e) {
+
         if (e?.response?.status !== 403) {
             if (setApiProgress) {
                 setApiProgress(false);
             }
-            getGlobalToast().show({ severity: 'error', summary: 'Hata', detail: <p>{e.response?.data?.message}</p>, life: 6000 });
+            // getGlobalToast().show({ severity: 'error', summary: 'Hata', detail: <p>{e.response?.data?.message}</p>, life: 6000 });
             if (e.response.data.errors?.length) {
-                getGlobalToast().show({ severity: 'error', summary: 'Hata', detail: <p>{e.response.data.errors.map(val => <>{val.defaultMessage}<br /></>)}</p>, life: 6000 });
+                getGlobalToast().show({
+                    severity: 'error', summary: 'Hata', detail:
+                        <p>
+                            {e.response.data.errors.map(val => <>{(val.field === 'password' ? '' : val?.field.charAt(0).toUpperCase() + val?.field.slice(1).toLowerCase()) + " " + val.defaultMessage}<br /></>)}
+                        </p>,
+                    life: 6000
+                });
+            } else if (e?.response?.data?.error) {
+                getGlobalToast().show({ severity: 'error', summary: 'Hata', detail: <p>{<>{e.response.data.message}<br /></>}</p>, life: 6000 });
             }
         }
+
 
         throw e;
     }

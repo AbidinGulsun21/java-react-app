@@ -3,6 +3,7 @@ import { POST, callAPI, getGlobalToast } from '../utils/axiosUtils';
 import { handleItemChange } from '../utils/ortakFunc';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from 'primereact/button';
+import Input from '../components/Input';
 
 export default function Login() {
 
@@ -27,7 +28,6 @@ export default function Login() {
             navigate("/");
             getGlobalToast().show({ severity: 'success', summary: res.data.message, life: 3000 });
             setItem({});
-
         }
     }
 
@@ -37,7 +37,7 @@ export default function Login() {
             <div className='col-lg-4'>
 
                 <Link to={'/'} className='m-0 p-0 d-flex justify-content-center mb-5'>
-                    <img src="https://play-lh.googleusercontent.com/ahJtMe0vfOlAu1XJVQ6rcaGrQBgtrEZQefHy7SXB7jpijKhu1Kkox90XDuH8RmcBOXNn" style={{ width: '150px', height: '150px',borderRadius:'50%' }} />
+                    <img alt='text' src="https://play-lh.googleusercontent.com/ahJtMe0vfOlAu1XJVQ6rcaGrQBgtrEZQefHy7SXB7jpijKhu1Kkox90XDuH8RmcBOXNn" style={{ width: '150px', height: '150px',borderRadius:'50%' }} />
                 </Link>
                 <h2>Login</h2>
 
@@ -48,15 +48,11 @@ export default function Login() {
                     </Link>
                 </div>
 
-                <div>
-                    <label className="form-check-label">Username</label>
-                    <input className="form-control" value={item?.username ?? ''} type='text' onChange={(e) => handleItemChange('username', e.target.value, setItem)} />
-                </div>
+             
+                <Input label={"Username"} val={item?.username ?? ''} onChange={(e) => handleItemChange('username', e.target.value, setItem)} />
 
-                <div className="my-3">
-                    <label className="form-check-label">Password</label>
-                    <input className="form-control" value={item?.password ?? ''} type='text' onChange={(e) => handleItemChange('password', e.target.value, setItem)} />
-                </div>
+                <Input label={"Password"} val={item?.password ?? ''} onChange={(e) => handleItemChange('password', e.target.value, setItem)} />
+
 
                 <button className="btn btn-primary d-flex justify-content-center align-items-center px-3" type="button" onClick={handleLogin} style={{ height: '30px' }} disabled={apiProgress}>
                     <div className="d-flex align-items-center">

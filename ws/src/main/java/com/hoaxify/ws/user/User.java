@@ -6,6 +6,9 @@ import lombok.Generated;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "users")
@@ -20,12 +23,17 @@ public class User {
     private int id;
 
     @Column(name = "username")
+    @NotNull
+    @Size(min = 4, max = 20)
     private String username;
 
     @Column(name = "display_name")
+    @NotNull
     private String displayName;
 
-    @Column(name = "password")
+    @NotNull
+    @Column(name = "password",unique = true)
+    @Pattern(regexp="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$",message = "Şifre en az bir küçük harf, büyük harf ve sayı içermelidir!")
     private String password;
 
 }
