@@ -17,11 +17,21 @@ export const axiosObj = axios.create({
     },
 })
 
+let globalToast = null;
 
+export function setGlobalToast(ref) {
+    globalToast = ref;
+}
 
+export function getGlobalToast() {
+    return globalToast;
+}
 
-export async function callAPI({ method, url, headers, params, data, responseType }) {
+export async function callAPI({ method, url, headers, params, data, responseType, setApiProgress }) {
     const access_token = localStorage.getItem(userKey);
+    if (setApiProgress) {
+        setApiProgress(true);
+    }
     try {
         const res = await axiosObj({
             method,
@@ -32,12 +42,21 @@ export async function callAPI({ method, url, headers, params, data, responseType
             responseType: responseType ? responseType : null,
         });
 
+        if (setApiProgress) {
+            setApiProgress(false);
+        }
         return res;
     } catch (e) {
-        console.log(e?.response?.data?.errorMessage);
         if (e?.response?.status !== 403) {
-
+            if (setApiProgress) {
+                setApiProgress(false);
+            }
+            getGlobalToast().show({ severity: 'error', summary: 'Hata', detail: <p>{e.response?.data?.message}</p>, life: 6000 });
+            if (e.response.data.errors?.length) {
+                getGlobalToast().show({ severity: 'error', summary: 'Hata', detail: <p>{e.response.data.errors.map(val => <>{val.defaultMessage}<br /></>)}</p>, life: 6000 });
+            }
         }
+
         throw e;
     }
 }

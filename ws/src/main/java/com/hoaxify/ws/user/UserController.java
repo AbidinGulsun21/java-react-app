@@ -20,6 +20,19 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     public GenericResponse createUser(@RequestBody User user) throws Exception {
         Optional<User> existUser = this.getUsername(user.getUsername());
+
+        if (user.getUsername() == null || user.getUsername() == "") {
+            throw new Exception("Username can not be null!");
+        }
+
+        if (user.getDisplayName() == null || user.getDisplayName().isEmpty()) {
+            throw new Exception("Displayname can not be null!");
+        }
+
+        if (user.getPassword() == null || user.getPassword().isEmpty()) {
+            throw new Exception("Displayname can not be null!");
+        }
+
         if (existUser.isPresent()) {
             System.out.println("user" + existUser);
             throw new Exception("Böyle bir kullanıcı mevcut!");
@@ -35,19 +48,19 @@ public class UserController {
     }
 
 
-   @PostMapping("/login")
-   public void login(@RequestBody User user) throws Exception {
-       Optional<User> optionalUser = this.userService.getUsername(user.getUsername());
-       if (optionalUser.isPresent()) {
-           User existingUser = optionalUser.get();
-           if (encoder.matches(user.getPassword(), existingUser.getPassword())) {
-               System.out.println("işlem başarılı");
-           } else {
-               throw new Exception("Hatalı işlem kullanıcı adı yada şifre yanlış");
-           }
-       } else {
-           throw new Exception("Kullanıcı bulunamadı");
-       }
-   }
+    @PostMapping("/login")
+    public GenericResponse login(@RequestBody User user) throws Exception {
+        Optional<User> optionalUser = this.userService.getUsername(user.getUsername());
+        if (optionalUser.isPresent()) {
+            User existingUser = optionalUser.get();
+            if (encoder.matches(user.getPassword(), existingUser.getPassword())) {
+                return new GenericResponse("Login işlemi başarılı");
+            } else {
+                throw new Exception("Hatalı işlem kullanıcı adı yada şifre yanlış");
+            }
+        } else {
+            throw new Exception("Kullanıcı bulunamadı");
+        }
+    }
 
 }
