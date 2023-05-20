@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { getErrorMessage, handleItemChange } from '../utils/ortakFunc';
+import React, {  useState } from 'react'
+import { handleItemChange } from '../utils/ortakFunc';
 import { POST, callAPI, getGlobalToast } from '../utils/axiosUtils';
 import { Link } from 'react-router-dom';
 import { Button } from 'primereact/button';
@@ -10,27 +10,19 @@ export default function UserSignUpPage() {
     const [item, setItem] = useState({});
     const [agreed, setAgreed] = useState(false);
     const [apiProgress, setApiProgress] = useState(false);
-    const [errMessage, setErrMessage] = useState();
-
-
 
     async function handleCreateUser() {
-        try {
-            if (item?.passwordRepeat !== item?.password) {
-                getGlobalToast().show({ severity: 'warn', summary: "Parola alanı boş veya birbirine uymuyor!", life: 5000 });
-            } else {
-                const res = await callAPI({
-                    method: POST,
-                    url: 'api/1.0/users',
-                    data: item,
-                    setApiProgress
-                })
-                setItem({});
-                getGlobalToast().show({ severity: 'success', summary: res.data.message, life: 3000 });
-            }
-        } catch (error) {
-            console.log(error.response.data.errors.map(val => val.defaultMessage ));
-            setErrMessage(error.response.data.errors , error.response.data.errors(val => val.defaultMessage ? val.defaultMessage : ''));
+        if (item?.passwordRepeat !== item?.password) {
+            getGlobalToast().show({ severity: 'warn', summary: "Parola alanı boş veya birbirine uymuyor!", life: 5000 });
+        } else {
+            const res = await callAPI({
+                method: POST,
+                url: 'api/1.0/users',
+                data: item,
+                setApiProgress
+            })
+            setItem({});
+            getGlobalToast().show({ severity: 'success', summary: res.data.message, life: 3000 });
         }
     }
 
@@ -52,13 +44,13 @@ export default function UserSignUpPage() {
                 </div>
 
 
-                <Input label={"Username"} val={item?.username ?? ''} onChange={(e) => handleItemChange('username', e.target.value, setItem)} error={getErrorMessage(errMessage, 'username')} />
+                <Input label={"Username"} val={item?.username ?? ''} onChange={(e) => handleItemChange('username', e.target.value, setItem)} />
 
-                <Input label={"Display name"} val={item?.displayName ?? ''} onChange={(e) => handleItemChange('displayName', e.target.value, setItem)} error={getErrorMessage(errMessage, 'displayName')} />
+                <Input label={"Display name"} val={item?.displayName ?? ''} onChange={(e) => handleItemChange('displayName', e.target.value, setItem)} />
 
-                <Input label={"Password"} val={item?.password ?? ''} onChange={(e) => handleItemChange('password', e.target.value, setItem)} error={getErrorMessage(errMessage, 'password')} />
+                <Input label={"Password"} val={item?.password ?? ''} onChange={(e) => handleItemChange('password', e.target.value, setItem)} />
 
-                <Input label={"Password repeat*"} val={item?.passwordRepeat ?? ''} onChange={(e) => handleItemChange('passwordRepeat', e.target.value, setItem)} error={getErrorMessage(errMessage, 'passwordRepeat')} />
+                <Input label={"Password repeat*"} val={item?.passwordRepeat ?? ''} onChange={(e) => handleItemChange('passwordRepeat', e.target.value, setItem)} />
 
 
                 <div className="mb-3">
@@ -66,7 +58,7 @@ export default function UserSignUpPage() {
                     <input type='checkbox' className="form-check-input" onClick={(e) => setAgreed(e.target.checked)} />
                 </div>
 
-                <button className="btn btn-primary d-flex justify-content-center align-items-center px-3" type="button" onClick={handleCreateUser} style={{ height: '30px' }} disabled={!agreed || apiProgress}>
+                <button className="btn btn-primary d-flex justify-content-center align-items-center px-3" type="button" onClick={handleCreateUser} style={{ height: '30px' }} disabled={!agreed || apiProgress || !item?.password || !item?.passwordRepeat || !item?.displayName || !item?.username}>
                     <div className="d-flex align-items-center">
                         <p className="m-0">Sign Up</p>
                         {apiProgress &&

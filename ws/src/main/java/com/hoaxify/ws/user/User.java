@@ -25,6 +25,7 @@ public class User {
     @Column(name = "username")
     @NotNull
     @Size(min = 4, max = 20)
+    //@UniqueUsername
     private String username;
 
     @Column(name = "display_name")

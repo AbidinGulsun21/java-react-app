@@ -30,7 +30,6 @@ public class UserController {
         if (existUser.isPresent()) {
             throw new Exception(existUser.get().getUsername() + " isimli kullanıcı zaten var lütfen farklı bir kullanıcı adı girin!");
         }
-
         this.userService.createUser(user);
         return new GenericResponse("User Başarı ile Eklendi");
     }
