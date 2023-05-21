@@ -36,7 +36,7 @@ export async function callAPI({ method, url, headers, params, data, responseType
         const res = await axiosObj({
             method,
             url: `${process.env.REACT_APP_API_URL}/${url}`,
-            headers: { ...headers, Authorization: `Bearer ${access_token}`, timezone: new Date().getTimezoneOffset() },
+        headers: { ...headers, Authorization: `Bearer ${access_token}`, timezone: new Date().getTimezoneOffset() /* 'Accept-Language' : localStorage.getItem('userLn')*/ },
             params,
             data,
             responseType: responseType ? responseType : null,

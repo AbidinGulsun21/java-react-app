@@ -10,3 +10,22 @@ p{
   left: 0;
   z-index: 10;
 }
+
+.icon-tr{
+  background: url('/public/assests/ic_flag_tr.svg');
+  width: 30px;
+  background-size: cover;
+  background-position: center;
+  height: 100%;
+  background-repeat: no-repeat;
+}
+
+
+.icon-en{
+  background: url('/public/assests/ic_flag_en.svg');
+  width: 30px;
+  background-size: cover;
+  background-position: center;
+  height: 100%;
+  background-repeat: no-repeat;
+}

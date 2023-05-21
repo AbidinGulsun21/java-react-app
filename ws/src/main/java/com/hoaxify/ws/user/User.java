@@ -23,8 +23,8 @@ public class User {
     private int id;
 
     @Column(name = "username")
-    @NotNull
-    @Size(min = 4, max = 20)
+    @NotNull(message  = "{NotNull.message}")
+    //@Size(min = 4, max = 20)
     //@UniqueUsername
     private String username;
 

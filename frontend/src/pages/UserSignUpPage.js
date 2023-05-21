@@ -1,15 +1,22 @@
-import React, {  useState } from 'react'
-import { handleItemChange } from '../utils/ortakFunc';
+import React, { useEffect, useState } from 'react'
+import { changeLng, handleItemChange } from '../utils/ortakFunc';
 import { POST, callAPI, getGlobalToast } from '../utils/axiosUtils';
 import { Link } from 'react-router-dom';
 import { Button } from 'primereact/button';
 import Input from '../components/Input';
+import { withTranslation } from 'react-i18next';
+import ChangeLanguage from '../config/ChangeLanguage';
 
-export default function UserSignUpPage() {
+function UserSignUpPage(props) {
 
     const [item, setItem] = useState({});
     const [agreed, setAgreed] = useState(false);
     const [apiProgress, setApiProgress] = useState(false);
+    const { t } = props;
+
+    useEffect(() => {
+        console.log("props", props)
+    }, [])
 
     async function handleCreateUser() {
         if (item?.passwordRepeat !== item?.password) {
@@ -19,7 +26,8 @@ export default function UserSignUpPage() {
                 method: POST,
                 url: 'api/1.0/users',
                 data: item,
-                setApiProgress
+                setApiProgress,
+                headers: { 'accept-language': 'ar' }
             })
             setItem({});
             getGlobalToast().show({ severity: 'success', summary: res.data.message, life: 3000 });
@@ -30,11 +38,11 @@ export default function UserSignUpPage() {
     return (
 
         <div className='row justify-content-center align-items-center h-100 my-5' >
-            <div className='col-lg-8 card p-5 mb-5'>
+            <div className='col-lg-8 card p-5 mb-5' >
                 <Link to={'/'} className='m-0 p-0 d-flex justify-content-center mb-5'>
                     <img alt="test" src="https://play-lh.googleusercontent.com/ahJtMe0vfOlAu1XJVQ6rcaGrQBgtrEZQefHy7SXB7jpijKhu1Kkox90XDuH8RmcBOXNn" style={{ width: '150px', height: '150px', borderRadius: '50%' }} />
                 </Link>
-                <h2>Sign Up</h2>
+                <h2>{t('signUp')}</h2>
 
                 <div className='d-flex align-items-center' style={{ height: '50px' }} >
                     <p >Zaten bir hesabınmı var? </p>
@@ -58,7 +66,8 @@ export default function UserSignUpPage() {
                     <input type='checkbox' className="form-check-input" onClick={(e) => setAgreed(e.target.checked)} />
                 </div>
 
-                <button className="btn btn-primary d-flex justify-content-center align-items-center px-3" type="button" onClick={handleCreateUser} style={{ height: '30px' }} disabled={!agreed || apiProgress || !item?.password || !item?.passwordRepeat || !item?.displayName || !item?.username}>
+                <button className="btn btn-primary d-flex justify-content-center align-items-center px-3" type="button" onClick={handleCreateUser} style={{ height: '30px' }}
+                    disabled={!agreed || apiProgress || !item?.password || !item?.passwordRepeat}>
                     <div className="d-flex align-items-center">
                         <p className="m-0">Sign Up</p>
                         {apiProgress &&
@@ -70,8 +79,16 @@ export default function UserSignUpPage() {
                     </div>
                 </button>
 
+
+
             </div>
+
         </div>
 
     )
 }
+
+const UserSignUpPageWithTranslations = withTranslation()(UserSignUpPage);
+
+
+export default UserSignUpPageWithTranslations;

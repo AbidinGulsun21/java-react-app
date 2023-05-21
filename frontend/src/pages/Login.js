@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import { POST, callAPI, getGlobalToast } from '../utils/axiosUtils';
-import { handleItemChange } from '../utils/ortakFunc';
+import { changeLng, handleItemChange } from '../utils/ortakFunc';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from 'primereact/button';
 import Input from '../components/Input';
+import ChangeLanguage from '../config/ChangeLanguage';
 
 export default function Login() {
 
     const navigate = useNavigate();
     const [item, setItem] = useState({});
     const [apiProgress, setApiProgress] = useState(false);
-
 
     async function handleLogin() {
 
@@ -35,9 +35,8 @@ export default function Login() {
     return (
         <div className='row mx-1 mt-3 justify-content-center align-items-center'>
             <div className='col-lg-4'>
-
                 <Link to={'/'} className='m-0 p-0 d-flex justify-content-center mb-5'>
-                    <img alt='text' src="https://play-lh.googleusercontent.com/ahJtMe0vfOlAu1XJVQ6rcaGrQBgtrEZQefHy7SXB7jpijKhu1Kkox90XDuH8RmcBOXNn" style={{ width: '150px', height: '150px',borderRadius:'50%' }} />
+                    <img alt='text' src="https://play-lh.googleusercontent.com/ahJtMe0vfOlAu1XJVQ6rcaGrQBgtrEZQefHy7SXB7jpijKhu1Kkox90XDuH8RmcBOXNn" style={{ width: '150px', height: '150px', borderRadius: '50%' }} />
                 </Link>
                 <h2>Login</h2>
 
@@ -48,13 +47,13 @@ export default function Login() {
                     </Link>
                 </div>
 
-             
+
                 <Input label={"Username"} val={item?.username ?? ''} onChange={(e) => handleItemChange('username', e.target.value, setItem)} />
 
                 <Input label={"Password"} val={item?.password ?? ''} onChange={(e) => handleItemChange('password', e.target.value, setItem)} />
 
 
-                <button className="btn btn-primary d-flex justify-content-center align-items-center px-3" type="button" onClick={handleLogin} style={{ height: '30px' }} disabled={apiProgress}>
+                <button className="btn btn-primary d-flex justify-content-center align-items-center px-3" type="button" onClick={handleLogin} style={{ height: '40px' }} disabled={apiProgress}>
                     <div className="d-flex align-items-center">
                         <p className="m-0">Sign Up</p>
                         {apiProgress &&
@@ -65,7 +64,6 @@ export default function Login() {
                         }
                     </div>
                 </button>
-
             </div>
         </div>
     )
