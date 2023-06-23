@@ -45,9 +45,9 @@ function UserSignUpPage(props) {
                 <h2>{t('signUp')}</h2>
 
                 <div className='d-flex align-items-center' style={{ height: '50px' }} >
-                    <p >Zaten bir hesabınmı var? </p>
+                    <p>{t("alreadyHaveAccount")}  </p>
                     <Link to={'/login'} className='m-0 p-0' >
-                        <Button severity="info" label="Giriş Yap" text />
+                        <Button severity="info" label={t("login")} text />
                     </Link>
                 </div>
 
