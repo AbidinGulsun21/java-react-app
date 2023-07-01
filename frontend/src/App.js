@@ -1,11 +1,12 @@
 /*eslint-disable*/
 import { useEffect, useState } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'primereact/resources/primereact.min.css';
 import "primereact/resources/themes/lara-light-indigo/theme.css";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import './bootstrap-owerride.scss';
+
 
 import UserSignUpPage from './pages/UserSignUpPage';
 import Footer from './pages/Footer';
@@ -37,7 +38,7 @@ function App() {
 
   return (
 
-    <div style={{ position: 'relative', overflowX: 'hidden',minHeight:'100vh' }}>
+    <div style={{ position: 'relative', overflowX: 'hidden', minHeight: '100vh' }}>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />

@@ -13,7 +13,7 @@ i18n.use(initReactI18next).init({
             translations: localStorage.getItem("userLn") === 'tr' && tr
         },
     },
-    fallbackLng: localStorage.getItem("userLn"),
+    fallbackLng: localStorage.getItem("userLn") || 'tr',
     ns: ['translations'],
     defaultNs: 'translations',
     keySeparator: false,

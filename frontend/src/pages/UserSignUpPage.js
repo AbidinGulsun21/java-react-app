@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { changeLng, handleItemChange } from '../utils/ortakFunc';
+import React, { useState } from 'react'
+import { handleItemChange } from '../utils/ortakFunc';
 import { POST, callAPI, getGlobalToast } from '../utils/axiosUtils';
 import { Link } from 'react-router-dom';
 import { Button } from 'primereact/button';
 import Input from '../components/Input';
 import { withTranslation } from 'react-i18next';
-import ChangeLanguage from '../config/ChangeLanguage';
+
 
 function UserSignUpPage(props) {
 
@@ -14,9 +14,7 @@ function UserSignUpPage(props) {
     const [apiProgress, setApiProgress] = useState(false);
     const { t } = props;
 
-    useEffect(() => {
-        console.log("props", props)
-    }, [])
+
 
     async function handleCreateUser() {
         if (item?.passwordRepeat !== item?.password) {
@@ -47,29 +45,29 @@ function UserSignUpPage(props) {
                 <div className='d-flex align-items-center' style={{ height: '50px' }} >
                     <p>{t("alreadyHaveAccount")}  </p>
                     <Link to={'/login'} className='m-0 p-0' >
-                        <Button severity="info" label={t("login")} text />
+                        <Button className='p-0 mx-2' severity="info" label={t("login")} text />
                     </Link>
                 </div>
 
 
-                <Input label={"Username"} val={item?.username ?? ''} onChange={(e) => handleItemChange('username', e.target.value, setItem)} />
+                <Input label={t("username")} val={item?.username ?? ''} onChange={(e) => handleItemChange('username', e.target.value, setItem)} />
 
-                <Input label={"Display name"} val={item?.displayName ?? ''} onChange={(e) => handleItemChange('displayName', e.target.value, setItem)} />
+                <Input label={t("displayName")} val={item?.displayName ?? ''} onChange={(e) => handleItemChange('displayName', e.target.value, setItem)} />
 
-                <Input label={"Password"} val={item?.password ?? ''} onChange={(e) => handleItemChange('password', e.target.value, setItem)} />
+                <Input label={t("password")} val={item?.password ?? ''} onChange={(e) => handleItemChange('password', e.target.value, setItem)} />
 
-                <Input label={"Password repeat*"} val={item?.passwordRepeat ?? ''} onChange={(e) => handleItemChange('passwordRepeat', e.target.value, setItem)} />
+                <Input label={t("passwordRepeat") + "*"} val={item?.passwordRepeat ?? ''} onChange={(e) => handleItemChange('passwordRepeat', e.target.value, setItem)} />
 
 
                 <div className="mb-3">
-                    <label className="form-check-label me-1">Agreed</label>
+                    <label className="form-check-label me-1">{t("agreed")}</label>
                     <input type='checkbox' className="form-check-input" onClick={(e) => setAgreed(e.target.checked)} />
                 </div>
 
                 <button className="btn btn-primary d-flex justify-content-center align-items-center px-3" type="button" onClick={handleCreateUser} style={{ height: '30px' }}
                     disabled={!agreed || apiProgress || !item?.password || !item?.passwordRepeat}>
                     <div className="d-flex align-items-center">
-                        <p className="m-0">Sign Up</p>
+                        <p className="m-0">{t("signUp")}</p>
                         {apiProgress &&
                             <div>
                                 <span className="spinner-border spinner-border-sm m-0" role="status" aria-hidden="true"></span>
